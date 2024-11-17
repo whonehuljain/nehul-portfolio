@@ -17,13 +17,13 @@ const Portfolio = () => {
     {
       title: 'Robotic Arm RL',
       description: 'Making a robotic arm stand and balance at 90 degrees using Reinforcement Learning',
-      image: '/api/placeholder/64/64',
+      image: '/roboticArm.png',
       link: 'https://github.com/whonehuljain/roboticArm_RL'
     },
     {
       title: 'Fnalyze',
       description: 'Predicting Formula 1 Driver Standings with Machine Learning',
-      image: '/api/placeholder/64/64',
+      image: '/f1nalyze.png',
       link: 'https://github.com/whonehuljain/F1nalyze'
     },
     {
@@ -35,14 +35,14 @@ const Portfolio = () => {
     {
       title: 'MediMate',
       description: 'AI Health Assistant and Disease Prediction System',
-      image: '/api/placeholder/64/64',
+      image: '/medimate.webp',
       link: 'https://github.com/whonehuljain/medimate'
     },
   ];
 
   const skills = [
-    { name: 'Python', icon: '🌱' },
-    { name: 'Django', icon: '🐍' },
+    { name: 'Python', icon: '🐍' },
+    { name: 'Django', icon: '🌱' },
     { name: 'TensorFlow', icon: '🧠' },
     { name: 'AWS', icon: '☁️' },
     { name: 'Flutter', icon: '📱' },
@@ -53,10 +53,10 @@ const Portfolio = () => {
 
 
   const instaPosts = [
+    "https://www.instagram.com/p/C6mVrpRSTgI",
     "https://www.instagram.com/p/C0rTTzOvLge",
     "https://www.instagram.com/p/C-QLVRsPABH",
-    "https://www.instagram.com/p/Cygda02vhuw",
-    "https://www.instagram.com/p/C6mVrpRSTgI"
+    "https://www.instagram.com/p/Cygda02vhuw"
   ];
 
     // Add useEffect for Instagram embed
@@ -146,12 +146,12 @@ const Portfolio = () => {
           <div className="lg:w-2/3 lg:pl-10">
             {/* Hero Section */}
             <section id="home" className="mb-16">
-              <h1 className="text-9xl font-extrabold mb-6">
+              <h1 className="text-5xl text-center lg:text-9xl lg:text-left font-extrabold mb-6">
                 Hi! I'm Nehul
-                <span className="text-zinc-500 block text-7xl mt-2">Curiosity is My Jam!</span>
+                <span className="text-4xl text-center text-zinc-500 block lg:text-7xl lg:text-left mt-2">Curiosity is My Jam!</span>
               </h1>
-              <p className="text-zinc-400 text-2xl text-justify">
-                Turning wild ideas into tech that works (most of the time). <br />
+              <p className="text-zinc-400 text-2xl text-justify px-4">
+                Turning wild ideas into tech that works (most of the time).
                 I take problems that make you go "huh?" and turn them into software so smooth, you'll wonder if it's magic—or just my coffee addiction talking!
               </p>
             </section>
@@ -202,9 +202,9 @@ const Portfolio = () => {
 
             {/* Experience Section */}
             <section id="experience" className="mb-16">
-              <h2 className="text-8xl font-extrabold mb-6">
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
                 PROFESSIONAL
-                <span className="text-zinc-500 text-7xl block">PLOT TWISTS</span>
+                <span className="text-zinc-500 lg:text-7xl block">PLOT TWISTS</span>
               </h2>
               
               <div className="bg-zinc-800 rounded-lg p-6 border border-zinc-700">
@@ -218,9 +218,9 @@ const Portfolio = () => {
 
             {/* Projects Section */}
             <section id="projects" className="mb-16">
-              <h2 className="text-8xl font-extrabold mb-6">
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
                 FEATURED
-                <span className="text-zinc-500 text-7xl block">PROJECTS</span>
+                <span className="text-zinc-500 lg:text-7xl block">PROJECTS</span>
               </h2>
               <div className="grid gap-4">
                 {projects.map((project) => (
@@ -248,9 +248,9 @@ const Portfolio = () => {
 
             {/* Skills Section */}
             <section id="skills" className="mb-16">
-              <h2 className="text-8xl font-extrabold mb-6">
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
                 MY SKILLS &
-                <span className="text-zinc-500 text-7xl block">TOOLKIT</span>
+                <span className="text-zinc-500 lg:text-7xl block">TOOLKIT🛠️</span>
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {skills.map((skill) => (
@@ -268,11 +268,11 @@ const Portfolio = () => {
 
             {/* Photography Section */}
             <section id="photography" className="mb-16">
-      <h2 className="text-8xl font-extrabold mb-6">
+      <h2 className="text-5xl lg:text-8xl font-extrabold mb-6">
         PICTURE THIS...
-        <span className="text-zinc-500 text-7xl block">Literally!</span>
+        <span className="text-zinc-500 lg:text-7xl block">Literally!</span>
       </h2>
-      <p className="text-zinc-500 block text-2xl mb-10">I don't just code... :P</p>
+      <p className="text-zinc-500 font-semibold block text-2xl mb-10">I don't just code... :P</p>
       
       <div className="overflow-hidden relative">
         <div className="flex animate-scroll gap-4 hover:pause">
@@ -350,9 +350,9 @@ const Portfolio = () => {
                     </p>
                   </div> */}
                   <div className="lg:w-2/3">
-                    <h2 className="text-7xl font-extrabold mb-4">
+                    <h2 className="text-5xl lg:text-7xl font-extrabold mb-4">
                       LET'S WORK
-                      <span className="text-zinc-500 text-6xl block">TOGETHER</span>
+                      <span className="text-zinc-500 lg:text-6xl block">TOGETHER</span>
                     </h2>
                     <p className="text-zinc-400 text-xl mb-6">
                       Let's catch up for a coffee? ☕️ (virtually probably?)
