@@ -14,6 +14,13 @@ module.exports = {
           '100%': { transform: 'translateX(-50%)' },
         },
       },
+      backgroundColor: {
+        'custom-bg': '#151312',
+        'grey-bg': '#1C1A19',
+      },
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],
