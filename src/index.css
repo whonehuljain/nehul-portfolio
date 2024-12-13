@@ -16,3 +16,52 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Custom scrollbar for PDF container */
+.pdf-container {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5563 #1F2937;
+}
+
+.pdf-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.pdf-container::-webkit-scrollbar-track {
+  background: #1F2937;
+  border-radius: 4px;
+}
+
+.pdf-container::-webkit-scrollbar-thumb {
+  background: #4B5563;
+  border-radius: 4px;
+}
+
+.pdf-container::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+/* Hide default PDF viewer controls */
+iframe[type="application/pdf"] {
+  background: transparent;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  iframe[type="application/pdf"] {
+    min-height: 400px;
+  }
+}
+
+/* Remove PDF viewer toolbar */
+iframe {
+  background: transparent !important;
+}
+
+/* Ensure PDF fits container */
+.pdf-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}

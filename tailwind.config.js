@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        scroll: 'scroll 25s linear infinite',
+        scroll: 'scroll 30s linear infinite',
       },
       keyframes: {
         scroll: {
@@ -17,6 +17,8 @@ module.exports = {
       backgroundColor: {
         'custom-bg': '#151312',
         'grey-bg': '#1C1A19',
+        'custom-orange': '#FA651E',
+        'form-bg': '#363334',
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
