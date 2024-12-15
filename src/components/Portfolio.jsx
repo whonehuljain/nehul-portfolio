@@ -17,39 +17,75 @@ import {
 } from "lucide-react";
 
 const Portfolio = () => {
-
   const sectionRefs = {
     home: useRef(null),
     experience: useRef(null),
     projects: useRef(null),
     skills: useRef(null),
     photography: useRef(null),
-    contact: useRef(null)
+    contact: useRef(null),
   };
 
   // Improved smooth scroll function
   const scrollToSection = (elementRef) => {
     if (elementRef.current) {
       // Use behavior: 'smooth' and additional options for better scrolling
-      elementRef.current.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start',
-        inline: 'nearest'
+      elementRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
       });
     }
   };
 
   // Navigation links with icons
   const navLinks = [
-    { title: "Home", href: "#home", icon: <Home size={20} />, ref: sectionRefs.home },
-    { title: "Experience", href: "#experience", icon: <Briefcase size={20} />, ref: sectionRefs.experience },
-    { title: "Projects", href: "#projects", icon: <Code size={20} />, ref: sectionRefs.projects },
-    { title: "Skills", href: "#skills", icon: <Settings size={20} />, ref: sectionRefs.skills },
-    { title: "Photography", href: "#photography", icon: <Camera size={20} />, ref: sectionRefs.photography },
-    { title: "Contact", href: "#contact", icon: <Mail size={20} />, ref: sectionRefs.contact },
+    {
+      title: "Home",
+      href: "#home",
+      icon: <Home size={20} />,
+      ref: sectionRefs.home,
+    },
+    {
+      title: "Experience",
+      href: "#experience",
+      icon: <Briefcase size={20} />,
+      ref: sectionRefs.experience,
+    },
+    {
+      title: "Projects",
+      href: "#projects",
+      icon: <Code size={20} />,
+      ref: sectionRefs.projects,
+    },
+    {
+      title: "Skills",
+      href: "#skills",
+      icon: <Settings size={20} />,
+      ref: sectionRefs.skills,
+    },
+    {
+      title: "Photography",
+      href: "#photography",
+      icon: <Camera size={20} />,
+      ref: sectionRefs.photography,
+    },
+    {
+      title: "Contact",
+      href: "#contact",
+      icon: <Mail size={20} />,
+      ref: sectionRefs.contact,
+    },
   ];
 
-  const skillTags = ['Machine Learning', 'Data', 'Cloud', 'DevOps', 'Mobile', 'Web x AI']
+  const skillTags = [
+    "Machine Learning",
+    "Data",
+    "Cloud",
+    "DevOps",
+    "Mobile",
+    "Web x AI",
+  ];
 
   const experience = [
     {
@@ -107,7 +143,7 @@ const Portfolio = () => {
       icon: "🐍",
       description:
         "Every coder's best friend – easy to learn, harder to put down!",
-      logo: "/skill-logo/python-logo.png", 
+      logo: "/skill-logo/python-logo.png",
     },
     {
       name: "TensorFlow",
@@ -216,15 +252,14 @@ const Portfolio = () => {
         <div className="bg-grey-bg rounded-xl mt-3 px-6 py-3.5 flex gap-6">
           {navLinks.map((link) => (
             <button
-            key={link.href}
-            onClick={() => scrollToSection(link.ref)}
-            className="text-white hover:text-orange-500 transition-colors"
-            title={link.title}
-            type="button"
-            
-          >
-            {link.icon}
-          </button>
+              key={link.href}
+              onClick={() => scrollToSection(link.ref)}
+              className="text-white hover:text-orange-500 transition-colors"
+              title={link.title}
+              type="button"
+            >
+              {link.icon}
+            </button>
           ))}{" "}
           {/* <p className="text-zinc-500">|</p>
           <a
@@ -240,79 +275,82 @@ const Portfolio = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8">
         <div className="flex flex-col lg:flex-row gap-16 mx-auto">
-  {/* Sticky Sidebar */}
-  <div className="lg:w-1/3">
-    <div className="sticky top-8">
-      <div className="bg-white rounded-2xl px-4 py-12">
-        <div className="flex flex-col items-center text-center h-full">
-          <div className="relative mb-3">
-            <img
-              src="/profile.png"
-              alt="Profile"
-              className="w-64 h-72 rounded-2xl object-cover"
-              draggable="false"
-              onContextMenu={(e) => e.preventDefault()}
-            />
+          {/* Sticky Sidebar */}
+          <div className="lg:w-1/3">
+            <div className="sticky top-8">
+              <div className="bg-white rounded-2xl px-4 py-12">
+                <div className="flex flex-col items-center text-center h-full">
+                  <div className="relative mb-3">
+                    <img
+                      src="/profile.png"
+                      alt="Profile"
+                      className="w-64 h-72 rounded-2xl object-cover"
+                      draggable="false"
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                  </div>
+                  <h1 className="text-2xl font-bold text-black mb-0">
+                    Nehul Jain
+                  </h1>
+                  <p className="text-zinc-600 font-medium mb-5">
+                    i do stuff! + figuring out my life!
+                  </p>
+                  <div className="flex space-x-8">
+                    <a
+                      href="https://www.linkedin.com/in/whonehuljain/"
+                      className="text-orange-500 hover:text-zinc-500"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Linkedin size={20} />
+                    </a>
+                    <a
+                      href="https://github.com/whonehuljain"
+                      className="text-orange-500 hover:text-zinc-500"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Github size={20} />
+                    </a>
+                    <a
+                      href="https://x.com/whonehuljain"
+                      className="text-orange-500 hover:text-zinc-500"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Twitter size={20} />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/whonehuljain"
+                      className="text-orange-500 hover:text-zinc-500"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Instagram size={20} />
+                    </a>
+                    <a
+                      href="mailto:work.nehul@gmail.com"
+                      className="text-orange-500 hover:text-zinc-500"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Mail size={20} />
+                    </a>
+                  </div>
+                  <div className="mt-6 flex flex-wrap justify-center gap-2 px-4">
+                    {skillTags.map((skill) => (
+                      <span
+                        key={skill}
+                        className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-2xl font-bold text-black mb-0">
-            Nehul Jain
-          </h1>
-          <p className="text-zinc-600 font-medium mb-5">
-          i do stuff! + figuring out my life!
-          </p>
-          <div className="flex space-x-8">
-            <a 
-              href="https://www.linkedin.com/in/whonehuljain/"
-              className="text-orange-500 hover:text-zinc-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href="https://github.com/whonehuljain"
-              className="text-orange-500 hover:text-zinc-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="https://x.com/whonehuljain"
-              className="text-orange-500 hover:text-zinc-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Twitter size={20} />
-            </a>
-            <a
-              href="https://www.instagram.com/whonehuljain"
-              className="text-orange-500 hover:text-zinc-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Instagram size={20} />
-            </a>
-            <a
-              href="mailto:work.nehul@gmail.com"
-              className="text-orange-500 hover:text-zinc-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Mail size={20} />
-            </a>
-          </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-2 px-4">
-            {skillTags.map((skill) => (
-              <span key={skill} className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
           {/* Main Content Area */}
           <div className="lg:w-2/3 lg:pl-4">
@@ -325,9 +363,10 @@ const Portfolio = () => {
                 </span>
               </h1>
               <p className="text-zinc-400 text-base lg:md:text-xl max-w-3xl text-center lg:text-left px-4 lg:p-0">
-              I make machines think, drink too much coffee, and pretend i have my life together.
-curiosity is my fuel, and i turn “what ifs” into “nailed it!” (most of the time).
-powered by bad jokes, big ideas, and way too much caffeine.
+                I make machines think, drink too much coffee, and pretend i have
+                my life together. curiosity is my fuel, and i turn “what ifs”
+                into “nailed it!” (most of the time). powered by bad jokes, big
+                ideas, and way too much caffeine.
               </p>
             </section>
 
@@ -335,8 +374,11 @@ powered by bad jokes, big ideas, and way too much caffeine.
             <section className="mb-20">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Professional Plot Twists Card */}
-                <button type="button" style={{all: "unset"}}>
-                  <div onClick={() => scrollToSection(sectionRefs.experience)} className="relative group cursor-pointer">
+                <button type="button" style={{ all: "unset" }}>
+                  <div
+                    onClick={() => scrollToSection(sectionRefs.experience)}
+                    className="relative group cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-600/30 to-transparent rounded-3xl opacity-50">
                       <div
                         className="absolute inset-0"
@@ -360,8 +402,11 @@ powered by bad jokes, big ideas, and way too much caffeine.
                 </button>
 
                 {/* Featured Projects Card */}
-                <button type="button" style={{all: "unset"}}>
-                  <div onClick={() => scrollToSection(sectionRefs.projects)} className="relative group cursor-pointer">
+                <button type="button" style={{ all: "unset" }}>
+                  <div
+                    onClick={() => scrollToSection(sectionRefs.projects)}
+                    className="relative group cursor-pointer"
+                  >
                     <div className="absolute inset-0 bg-gradient-to-br from-lime-400/30 to-transparent rounded-3xl opacity-50">
                       <div
                         className="absolute inset-0"
@@ -386,75 +431,79 @@ powered by bad jokes, big ideas, and way too much caffeine.
               </div>
             </section>
 
-{/* Experience Section */}
-<section ref={sectionRefs.experience} id="experience" className="mb-20">
-  <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
-    PROFESSIONAL
-    <span className="text-zinc-500 lg:text-7xl block">
-      PLOT TWISTS
-    </span>
-  </h2>
+            {/* Experience Section */}
+            <section
+              ref={sectionRefs.experience}
+              id="experience"
+              className="mb-20"
+            >
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
+                PROFESSIONAL
+                <span className="text-zinc-500 lg:text-7xl block">
+                  PLOT TWISTS
+                </span>
+              </h2>
 
-  <div className="grid gap-4">
-    {experience.map((exp) => (
-      <a href={exp.link} target="_blank" rel="noopener noreferrer">
-        <div
-          key={exp.company}
-          className="bg-custom-bg rounded-2xl p-6 border border-none hover:bg-grey-bg transition-all duration-200 group relative"
-        >
-          <div className="flex justify-between items-start">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-12 h-12 rounded-[20%] overflow-hidden flex items-center justify-center">
-                  <img
-                    src={exp.logo}
-                    alt={`${exp.company} logo`}
-                    className="w-full h-full object-contain"
-                    draggable="false"
-                    onContextMenu={(e) => e.preventDefault()}
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold">
-                  {exp.company}
-                </h3>
-              </div>
-              <div className="text-zinc-400 space-y-2">
-                {exp.points.map((point, index) => (
-                  <p key={index} className="flex items-start">
-                    <span className="mr-2">-</span>
-                    <span>{point}</span>
-                  </p>
+              <div className="grid gap-4">
+                {experience.map((exp) => (
+                  <a href={exp.link} target="_blank" rel="noopener noreferrer">
+                    <div
+                      key={exp.company}
+                      className="bg-custom-bg rounded-2xl p-6 border border-none hover:bg-grey-bg transition-all duration-200 group relative"
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-12 h-12 rounded-[20%] overflow-hidden flex items-center justify-center">
+                              <img
+                                src={exp.logo}
+                                alt={`${exp.company} logo`}
+                                className="w-full h-full object-contain"
+                                draggable="false"
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            </div>
+                            <h3 className="text-2xl font-semibold">
+                              {exp.company}
+                            </h3>
+                          </div>
+                          <div className="text-zinc-400 space-y-2">
+                            {exp.points.map((point, index) => (
+                              <p key={index} className="flex items-start">
+                                <span className="mr-2">-</span>
+                                <span>{point}</span>
+                              </p>
+                            ))}
+                          </div>
+                          {exp.period && (
+                            <p className="text-zinc-500 mt-4 text-sm">
+                              {exp.period}
+                            </p>
+                          )}
+                        </div>
+                        <span className="text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            className="rotate-45"
+                          >
+                            <path
+                              d="M2.66669 13.3333L13.3334 2.66666M13.3334 2.66666H5.33335M13.3334 2.66666V10.6667"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </a>
                 ))}
               </div>
-              {exp.period && (
-                <p className="text-zinc-500 mt-4 text-sm">
-                  {exp.period}
-                </p>
-              )}
-            </div>
-            <span className="text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="rotate-45"
-              >
-                <path
-                  d="M2.66669 13.3333L13.3334 2.66666M13.3334 2.66666H5.33335M13.3334 2.66666V10.6667"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </a>
-    ))}
-  </div>
-</section>
+            </section>
 
             {/* Projects Section */}
             <section ref={sectionRefs.projects} id="projects" className="mb-16">
@@ -514,11 +563,15 @@ powered by bad jokes, big ideas, and way too much caffeine.
             </section>
 
             {/* Skills Section */}
-            <section ref={sectionRefs.skills} id="skills" className="mb-16 px-4">
+            <section
+              ref={sectionRefs.skills}
+              id="skills"
+              className="mb-16 px-4"
+            >
               <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-12">
                 MY SKILLS &
                 <span className="text-zinc-500 lg:text-7xl block">
-                  TOOLKIT 
+                  TOOLKIT
                   <span className="inline-block ml-2"> 🛠️</span>
                 </span>
               </h2>
@@ -554,13 +607,13 @@ powered by bad jokes, big ideas, and way too much caffeine.
               </div>
             </section>
 
-{/* Resume Section */}
-{/* <section
+            {/* Resume Section */}
+            {/* <section
   id="resume"
   className="min-h-fit flex flex-col px-4 py-8 lg:py-16 max-w-6xl mx-auto"
 > */}
-  {/* Header */}
-  {/* <div className="mb-6">
+            {/* Header */}
+            {/* <div className="mb-6">
     <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold">
       RESUME
     </h2>
@@ -570,8 +623,8 @@ powered by bad jokes, big ideas, and way too much caffeine.
   </div>
 
   <div className="flex-grow flex flex-col items-center"> */}
-    {/* Download Button */}
-    {/* <div className="mb-4 text-center lg:text-left">
+            {/* Download Button */}
+            {/* <div className="mb-4 text-center lg:text-left">
       <a
         href={resumeUrl}
         download="Nehul_Jain_Resume.pdf"
@@ -582,8 +635,8 @@ powered by bad jokes, big ideas, and way too much caffeine.
       </a>
     </div> */}
 
-    {/* PDF Viewer Container */}
-    {/* <div className="w-full max-w-4xl h-[70vh] bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
+            {/* PDF Viewer Container */}
+            {/* <div className="w-full max-w-4xl h-[70vh] bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
       <iframe
         src={resumeUrl}
         title="Resume PDF"
@@ -604,7 +657,11 @@ powered by bad jokes, big ideas, and way too much caffeine.
 </section> */}
 
             {/* Photography Section */}
-            <section ref={sectionRefs.photography} id="photography" className="mb-16">
+            <section
+              ref={sectionRefs.photography}
+              id="photography"
+              className="mb-16"
+            >
               <h2 className="text-[2.8rem] leading-none lg:text-8xl font-extrabold mb-6">
                 PICTURE THIS...
                 <span className="text-zinc-500 lg:text-7xl block">
@@ -674,55 +731,55 @@ powered by bad jokes, big ideas, and way too much caffeine.
               </div>
             </section>
 
-{/* Contact Section */}
-<section ref={sectionRefs.contact} id="contact" className="mb-16">
-  <div className="bg-custom-bg rounded-3xl">
-    <div className="lg:flex items-center justify-center gap-8 px-0">
-      <div>
-        <h2 className="text-5xl lg:text-8xl font-extrabold mb-4">
-          LET'S WORK
-          <span className="text-zinc-500 lg:text-7xl block">TOGETHER</span>
-        </h2>
-        <p className="text-zinc-500 font-medium text-xl mb-6">
-          Let's catch up for a coffee? ☕️ (virtually probably?)
-        </p>
-        <form className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm text-zinc-500">Name</label>
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
-              />
-            </div>
-            <div>
-              <label className="text-sm text-zinc-500">Email</label>
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="text-sm text-zinc-500">Message</label>
-            <textarea
-              placeholder="Your Message"
-              rows={4}
-              className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
-            />
-          </div>
-          <button className="w-full bg-custom-orange hover:bg-orange-600 text-white py-3 rounded-lg transition-colors">
-            Submit
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-
+            {/* Contact Section */}
+            <section ref={sectionRefs.contact} id="contact" className="mb-16">
+              <div className="bg-custom-bg rounded-3xl">
+                <div className="lg:flex items-center justify-center gap-8 px-0">
+                  <div>
+                    <h2 className="text-5xl lg:text-8xl font-extrabold mb-4">
+                      LET'S WORK
+                      <span className="text-zinc-500 lg:text-7xl block">
+                        TOGETHER
+                      </span>
+                    </h2>
+                    <p className="text-zinc-500 font-medium text-xl mb-6">
+                      Let's catch up for a coffee? ☕️ (virtually probably?)
+                    </p>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm text-zinc-500">Name</label>
+                          <input
+                            type="text"
+                            placeholder="Your Name"
+                            className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm text-zinc-500">Email</label>
+                          <input
+                            type="email"
+                            placeholder="Your Email"
+                            className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-sm text-zinc-500">Message</label>
+                        <textarea
+                          placeholder="Your Message"
+                          rows={4}
+                          className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
+                        />
+                      </div>
+                      <button className="w-full bg-custom-orange hover:bg-orange-600 text-white py-3 rounded-lg transition-colors">
+                        Submit
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </div>
