@@ -99,6 +99,27 @@ const Portfolio = () => {
     // },
   ];
 
+
+  const [showBottomNav, setShowBottomNav] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Get the original navbar element
+      const topNav = document.getElementById('top-nav');
+      if (!topNav) return;
+
+      // Get the position and dimensions of the top navbar
+      const rect = topNav.getBoundingClientRect();
+      
+      // Show bottom nav when top nav is out of view (above the viewport)
+      setShowBottomNav(rect.bottom < 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+
   const skillTags = [
     "Machine Learning",
     "Data",
@@ -289,7 +310,9 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-custom-bg text-white font-poppins">
       {/* Navigation Bar */}
-      <nav className="flex justify-center py-4">
+      <>
+      {/* Original Top Navigation */}
+      <nav id="top-nav" className="flex justify-center py-4">
         <div className="bg-grey-bg rounded-xl mt-3 px-6 py-3.5 flex gap-9">
           {navLinks.map((link) => (
             <button
@@ -301,17 +324,31 @@ const Portfolio = () => {
             >
               {link.icon}
             </button>
-          ))}{" "}
-          {/* <p className="text-zinc-500">|</p>
-          <a
-            href="#contact"
-            className="text-white hover:text-orange-500 transition-colors"
-          >
-            {" "}
-            <Camera size={20} />{" "}
-          </a> */}
+          ))}
         </div>
       </nav>
+
+      {/* Bottom Navigation */}
+      <div
+        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
+          showBottomNav ? 'opacity-90 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'
+        }`}
+      >
+        <div className="bg-grey-bg rounded-xl px-6 py-3.5 flex gap-9 shadow-lg shadow-black/50">
+          {navLinks.map((link) => (
+            <button
+              key={`bottom-${link.href}`}
+              onClick={() => scrollToSection(link.ref)}
+              className="text-white hover:text-orange-500 transition-colors"
+              title={link.title}
+              type="button"
+            >
+              {link.icon}
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8">
@@ -346,7 +383,7 @@ const Portfolio = () => {
                 >
                   {/* Front of the card */}
                   <div
-                    className="w-full bg-white rounded-2xl px-4 py-12 shadow-2xl"
+                    className="w-full bg-white rounded-2xl px-4 p-12 shadow-2xl"
                     style={{ 
                       backfaceVisibility: 'hidden',
                       transform: 'translateZ(0px)',
@@ -428,78 +465,75 @@ const Portfolio = () => {
                     </div>
                   </div>
 
-{/* Back of the card with Spotify playlists */}
+{/* Back of the card */}
 <div
-  className="absolute top-0 w-full h-full bg-gradient-to-br from-rose-950 to-purple-900 rounded-2xl px-4 py-8 shadow-2xl"
+  className="absolute top-0 w-full h-full bg-gradient-to-br from-slate-900 to-purple-900 rounded-2xl px-4 py-6 shadow-2xl"
   style={{
     backfaceVisibility: 'hidden',
     transform: 'rotateY(180deg) translateZ(0px)',
   }}
 >
-  <div className="flex flex-col items-center text-center h-full text-white">
-    <h2 className="text-2xl font-bold mb-2">The Other Side of Me</h2>
-    <p className="text-sm mb-4 text-indigo-200">
-      Music speaks when words fail... 🎵
-    </p>
-    
-    {/* Playlists Section */}
-    <div className="w-full space-y-4">
-      {/* Whispered Confessions Playlist */}
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/15 transition-colors">
-        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-          <span>🌙</span> Whispered Confessions
-        </h3>
-        <div className="w-full h-[80px] bg-black/20 rounded-lg overflow-hidden">
-          <iframe
-            src="https://open.spotify.com/embed/playlist/4sJkkhN7A94nrnlyBiNPzu"
-            width="100%"
-            height="80"
-            frameBorder="0"
-            allow="encrypted-media"
-            className="rounded-lg"
-            title="whispered confessions playlist"
-          ></iframe>
-        </div>
-        <p className="text-xs mt-2 text-indigo-200 italic">
-          "For that speacial one..."
-        </p>
-      </div>
+  <div className="flex flex-col h-full text-white">
+    <h2 className="text-2xl font-bold mb-2 text-center">Behind the Code</h2>
 
-      {/* Ghazalistic Playlist */}
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/15 transition-colors">
-        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-          <span>✨</span> Ghazalistic
-        </h3>
-        <div className="w-full h-[80px] bg-black/20 rounded-lg overflow-hidden">
-          <iframe
-            src="https://open.spotify.com/embed/playlist/39bsXalToPeg2QnBov8pAb"
-            width="100%"
-            height="80"
-            frameBorder="0"
-            allow="encrypted-media"
-            className="rounded-lg"
-            title="ghazal playlist"
-          ></iframe>
+    {/* Current Status */}
+    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
+      <h3 className="text-lg font-semibold mb-2">Currently...</h3>
+      <div className="space-y-2 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          <span className="text-indigo-200">Reading:</span>
+          <span className="text-white">The Sentinel</span>
         </div>
-        <p className="text-xs mt-2 text-indigo-200 italic">
-          "निय्यत-ए-शौक़ भर न जाए कहीं..."
-        </p>
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+          <span className="text-indigo-200">Learning:</span>
+          <span className="text-white">Embeded C for Robotics</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+          <span className="text-indigo-200">Building:</span>
+          <span className="text-white">Something Cool 🤫</span>
+        </div>
       </div>
     </div>
 
-    {/* Easter Egg Section */}
-    <div className="mt-4 text-sm">
-      <p className="text-indigo-200 hover:text-white transition-colors cursor-pointer group">
-        <span className="opacity-50 group-hover:opacity-100">
-          I sometimes also play some music :p
-        </span>
-      </p>
+    {/* Quote of the Day */}
+    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
+      <div className="flex items-start gap-2">
+        <span className="text-3xl text-indigo-300">❝</span>
+        <div>
+          <p className="text-sm italic text-indigo-100">
+            Don't complain about having too much on the plate, when the goal was to eat!
+          </p>
+          <p className="text-xs text-indigo-300 mt-1">- Unknown (probably me)</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Music Section */}
+    <div className="mt-auto">
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl pt-3 px-0">
+        <div className="flex items-center gap-2 mb-2 pl-3">
+          <span>🎵</span>
+          <h3 className="text-sm font-medium">For Someone Special</h3>
+        </div>
+        <iframe
+          src="https://open.spotify.com/embed/playlist/4sJkkhN7A94nrnlyBiNPzu"
+          width="100%"
+          height="80"
+          frameBorder="0"
+          allow="encrypted-media"
+          className="rounded-lg"
+          title="whispered confessions playlist"
+        ></iframe>
+      </div>
     </div>
 
     {/* Flip Back Indicator */}
-    <div className="mt-4 flex items-center gap-2 text-sm text-indigo-200">
-      <ArrowRight size={16} className="rotate-180" />
-      <span>Click to flip back</span>
+    <div className="mt-3 flex items-center justify-center gap-2 text-xs text-indigo-200">
+      <ArrowRight size={14} className="rotate-180" />
+      <span>Flip back to professional mode :p</span>
     </div>
   </div>
 </div>
