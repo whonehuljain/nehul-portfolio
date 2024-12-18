@@ -1,15 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import emailjs from '@emailjs/browser';
 import {
   Home,
   Briefcase,
-  Code,
-  Settings,
-  Camera,
+  Folder,
+  Wrench,
+  File,
+  // Camera,
   Mail,
   Layers,
   Box,
   ArrowRight,
-  // Download,
+  Download,
   Github,
   Twitter,
   Instagram,
@@ -17,11 +19,24 @@ import {
 } from "lucide-react";
 
 const Portfolio = () => {
+
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = (e) => {
+    e.stopPropagation();
+    setIsFlipped(!isFlipped);
+  };
+
+  const handleLinkClick = (e) => {
+    e.stopPropagation(); // Prevent card flip when clicking links
+  };
+
   const sectionRefs = {
     home: useRef(null),
     experience: useRef(null),
     projects: useRef(null),
     skills: useRef(null),
+    resume: useRef(null),
     photography: useRef(null),
     contact: useRef(null),
   };
@@ -55,27 +70,33 @@ const Portfolio = () => {
     {
       title: "Projects",
       href: "#projects",
-      icon: <Code size={20} />,
+      icon: <Folder size={20} />,
       ref: sectionRefs.projects,
     },
     {
       title: "Skills",
       href: "#skills",
-      icon: <Settings size={20} />,
+      icon: <Wrench size={20} />,
       ref: sectionRefs.skills,
     },
     {
-      title: "Photography",
-      href: "#photography",
-      icon: <Camera size={20} />,
-      ref: sectionRefs.photography,
+      title: "Resume",
+      href: "#resume",
+      icon: <File size={20} />,
+      ref: sectionRefs.resume,
     },
-    {
-      title: "Contact",
-      href: "#contact",
-      icon: <Mail size={20} />,
-      ref: sectionRefs.contact,
-    },
+    // {
+    //   title: "Photography",
+    //   href: "#photography",
+    //   icon: <Camera size={20} />,
+    //   ref: sectionRefs.photography,
+    // },
+    // {
+    //   title: "Contact",
+    //   href: "#contact",
+    //   icon: <Mail size={20} />,
+    //   ref: sectionRefs.contact,
+    // },
   ];
 
   const skillTags = [
@@ -148,13 +169,19 @@ const Portfolio = () => {
     {
       name: "TensorFlow",
       icon: "🧠",
-      description: "Making sure your AI has more neurons than your brain!",
+      description: "Sometimes, it's not just about the code, it's about the data!",
       logo: "/skill-logo/tf-logo.png",
+    },
+    {
+      name: "Django",
+      icon: "dj",
+      description: "Why's there a 'D' if it's just gonna be silent?",
+      logo: "/skill-logo/django-logo.png",
     },
     {
       name: "AWS",
       icon: "☁️",
-      description: "Badal bahut important hai! ☁️",
+      description: "Badal bahut important hai! ☁️, but dude check those AWS bills!",
       logo: "/skill-logo/aws-logo.png",
     },
     {
@@ -167,7 +194,7 @@ const Portfolio = () => {
       name: "Java",
       icon: "☕",
       description:
-        "Something that's older than your favorite meme but still getting the job done!",
+        "The OG grandparent of programming languages, but still getting the job done! Old is turly gold!",
       logo: "/skill-logo/java-logo.png",
     },
     {
@@ -182,32 +209,11 @@ const Portfolio = () => {
       description: "Coz, Aesthetics Matter!!",
       logo: "/skill-logo/figma-logo.png",
     },
-    {
-      name: "Django",
-      icon: "dj",
-      description: "Why's there a 'D' if it's just gonna be silent?",
-      logo: "/skill-logo/django-logo.png",
-    },
   ];
 
-  // const [windowWidth, setWindowWidth] = useState(0);
 
-  // Resume PDF URL - make sure this is a publicly accessible URL
-  // const resumeUrl = "/nehul_resume.pdf"; // Update with your actual PDF path
+  const resumeUrl = "https://drive.google.com/file/d/1JAbAq4YNk9L38X7A6pPtJWmX6PmZp-rK/preview";
 
-  // // Handle window resize
-  // useEffect(() => {
-  //   const handleResize = () => setWindowWidth(window.innerWidth);
-
-  //   // Set initial width
-  //   handleResize();
-
-  //   // Add event listener
-  //   window.addEventListener("resize", handleResize);
-
-  //   // Cleanup
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
 
   const instaPosts = [
     "https://www.instagram.com/p/C6mVrpRSTgI",
@@ -216,19 +222,6 @@ const Portfolio = () => {
     "https://www.instagram.com/p/Cygda02vhuw",
   ];
 
-  // const preloadPdf = () => {
-  //   const link = document.createElement("link");
-  //   link.rel = "preload";
-  //   link.as = "object";
-  //   link.href = resumeUrl;
-  //   document.head.appendChild(link);
-  // };
-
-  // useEffect(() => {
-  //   preloadPdf();
-  // }, []);
-
-  // Add useEffect for Instagram embed
   useEffect(() => {
     const loadInstagramEmbed = () => {
       const script = document.createElement("script");
@@ -245,11 +238,59 @@ const Portfolio = () => {
     return cleanup;
   }, []);
 
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const formRef = useRef(null);
+
+  // Cleanup function for the timeout
+  useEffect(() => {
+    let timeoutId;
+
+    if (isSubmitted) {
+      timeoutId = setTimeout(() => {
+        setIsSubmitted(false);
+        // Only reset if the form reference exists
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+      }, 5000);
+    }
+
+    // Cleanup timeout on component unmount or when isSubmitted changes
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isSubmitted]);
+
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setIsLoading(true);
+  
+      try {
+        await emailjs.sendForm(
+          process.env.REACT_APP_EMAILJS_SERVICE_ID,
+          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+          formRef.current,
+          process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+        );
+        
+        setIsSubmitted(true);
+      } catch (error) {
+        console.error('Failed to send email:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
   return (
     <div className="min-h-screen bg-custom-bg text-white font-poppins">
       {/* Navigation Bar */}
       <nav className="flex justify-center py-4">
-        <div className="bg-grey-bg rounded-xl mt-3 px-6 py-3.5 flex gap-6">
+        <div className="bg-grey-bg rounded-xl mt-3 px-6 py-3.5 flex gap-9">
           {navLinks.map((link) => (
             <button
               key={link.href}
@@ -278,80 +319,197 @@ const Portfolio = () => {
           {/* Sticky Sidebar */}
           <div className="lg:w-1/3">
             <div className="sticky top-8">
-              <div className="bg-white rounded-2xl px-4 py-12">
-                <div className="flex flex-col items-center text-center h-full">
-                  <div className="relative mb-3">
-                    <img
-                      src="/profile.png"
-                      alt="Profile"
-                      className="w-64 h-72 rounded-2xl object-cover"
-                      draggable="false"
-                      onContextMenu={(e) => e.preventDefault()}
-                    />
-                  </div>
-                  <h1 className="text-2xl font-bold text-black mb-0">
-                    Nehul Jain
-                  </h1>
-                  <p className="text-zinc-600 font-medium mb-5">
-                    i do stuff! + figuring out my life!
-                  </p>
-                  <div className="flex space-x-8">
-                    <a
-                      href="https://www.linkedin.com/in/whonehuljain/"
-                      className="text-orange-500 hover:text-zinc-500"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Linkedin size={20} />
-                    </a>
-                    <a
-                      href="https://github.com/whonehuljain"
-                      className="text-orange-500 hover:text-zinc-500"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Github size={20} />
-                    </a>
-                    <a
-                      href="https://x.com/whonehuljain"
-                      className="text-orange-500 hover:text-zinc-500"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Twitter size={20} />
-                    </a>
-                    <a
-                      href="https://www.instagram.com/whonehuljain"
-                      className="text-orange-500 hover:text-zinc-500"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Instagram size={20} />
-                    </a>
-                    <a
-                      href="mailto:work.nehul@gmail.com"
-                      className="text-orange-500 hover:text-zinc-500"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Mail size={20} />
-                    </a>
-                  </div>
-                  <div className="mt-6 flex flex-wrap justify-center gap-2 px-4">
-                    {skillTags.map((skill) => (
-                      <span
-                        key={skill}
-                        className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+              <div
+                className="relative w-full cursor-pointer group"
+                onClick={handleFlip}
+                style={{
+                  perspective: '1000px',
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                {/* Shadow Element with synchronized transition */}
+                <div
+                  className="absolute -inset-4 rounded-2xl opacity-75 blur-xl"
+                  style={{
+                    background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05))',
+                    transform: 'translateZ(-10px)',
+                    transition: 'all 500ms ease-in-out',
+                  }}
+                />
 
+                <div
+                  className="w-full transition-transform duration-500 ease-in-out"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0)',
+                  }}
+                >
+                  {/* Front of the card */}
+                  <div
+                    className="w-full bg-white rounded-2xl px-4 py-12 shadow-2xl"
+                    style={{ 
+                      backfaceVisibility: 'hidden',
+                      transform: 'translateZ(0px)',
+                    }}
+                  >
+                    <div className="flex flex-col items-center text-center h-full">
+                      <div className="relative mb-3">
+                        <img
+                          src="/profile.png"
+                          alt="Profile"
+                          className="w-64 h-72 rounded-2xl object-cover"
+                          draggable="false"
+                          onContextMenu={(e) => e.preventDefault()}
+                        />
+                      </div>
+                      <h1 className="text-2xl font-bold text-black mb-0">
+                        Nehul Jain
+                      </h1>
+                      <p className="text-zinc-600 font-medium mb-5">
+                        i do stuff! still figuring out my life!
+                      </p>
+                      <div className="flex space-x-8">
+                        <a
+                          href="https://www.linkedin.com/in/whonehuljain/"
+                          className="text-orange-500 hover:text-zinc-500"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleLinkClick}
+                        >
+                          <Linkedin size={20} />
+                        </a>
+                        <a
+                          href="https://github.com/whonehuljain"
+                          className="text-orange-500 hover:text-zinc-500"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleLinkClick}
+                        >
+                          <Github size={20} />
+                        </a>
+                        <a
+                          href="https://x.com/whonehuljain"
+                          className="text-orange-500 hover:text-zinc-500"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleLinkClick}
+                        >
+                          <Twitter size={20} />
+                        </a>
+                        <a
+                          href="https://www.instagram.com/whonehuljain"
+                          className="text-orange-500 hover:text-zinc-500"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleLinkClick}
+                        >
+                          <Instagram size={20} />
+                        </a>
+                        <a
+                          href="mailto:work.nehul@gmail.com"
+                          className="text-orange-500 hover:text-zinc-500"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleLinkClick}
+                        >
+                          <Mail size={20} />
+                        </a>
+                      </div>
+                      <div className="mt-6 flex flex-wrap justify-center gap-2 px-4">
+                        {skillTags.map((skill) => (
+                          <span
+                            key={skill}
+                            className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+{/* Back of the card with Spotify playlists */}
+<div
+  className="absolute top-0 w-full h-full bg-gradient-to-br from-rose-950 to-purple-900 rounded-2xl px-4 py-8 shadow-2xl"
+  style={{
+    backfaceVisibility: 'hidden',
+    transform: 'rotateY(180deg) translateZ(0px)',
+  }}
+>
+  <div className="flex flex-col items-center text-center h-full text-white">
+    <h2 className="text-2xl font-bold mb-2">The Other Side of Me</h2>
+    <p className="text-sm mb-4 text-indigo-200">
+      Music speaks when words fail... 🎵
+    </p>
+    
+    {/* Playlists Section */}
+    <div className="w-full space-y-4">
+      {/* Whispered Confessions Playlist */}
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/15 transition-colors">
+        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+          <span>🌙</span> Whispered Confessions
+        </h3>
+        <div className="w-full h-[80px] bg-black/20 rounded-lg overflow-hidden">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/4sJkkhN7A94nrnlyBiNPzu"
+            width="100%"
+            height="80"
+            frameBorder="0"
+            allow="encrypted-media"
+            className="rounded-lg"
+            title="whispered confessions playlist"
+          ></iframe>
+        </div>
+        <p className="text-xs mt-2 text-indigo-200 italic">
+          "For that speacial one..."
+        </p>
+      </div>
+
+      {/* Ghazalistic Playlist */}
+      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/15 transition-colors">
+        <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+          <span>✨</span> Ghazalistic
+        </h3>
+        <div className="w-full h-[80px] bg-black/20 rounded-lg overflow-hidden">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/39bsXalToPeg2QnBov8pAb"
+            width="100%"
+            height="80"
+            frameBorder="0"
+            allow="encrypted-media"
+            className="rounded-lg"
+            title="ghazal playlist"
+          ></iframe>
+        </div>
+        <p className="text-xs mt-2 text-indigo-200 italic">
+          "निय्यत-ए-शौक़ भर न जाए कहीं..."
+        </p>
+      </div>
+    </div>
+
+    {/* Easter Egg Section */}
+    <div className="mt-4 text-sm">
+      <p className="text-indigo-200 hover:text-white transition-colors cursor-pointer group">
+        <span className="opacity-50 group-hover:opacity-100">
+          I sometimes also play some music :p
+        </span>
+      </p>
+    </div>
+
+    {/* Flip Back Indicator */}
+    <div className="mt-4 flex items-center gap-2 text-sm text-indigo-200">
+      <ArrowRight size={16} className="rotate-180" />
+      <span>Click to flip back</span>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+          
           {/* Main Content Area */}
           <div className="lg:w-2/3 lg:pl-4">
             {/* Hero Section */}
@@ -437,7 +595,7 @@ const Portfolio = () => {
               id="experience"
               className="mb-20"
             >
-              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold mb-6">
                 PROFESSIONAL
                 <span className="text-zinc-500 lg:text-7xl block">
                   PLOT TWISTS
@@ -507,7 +665,7 @@ const Portfolio = () => {
 
             {/* Projects Section */}
             <section ref={sectionRefs.projects} id="projects" className="mb-16">
-              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-6">
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold mb-6">
                 FEATURED
                 <span className="text-zinc-500 lg:text-7xl block">
                   PROJECTS
@@ -568,7 +726,7 @@ const Portfolio = () => {
               id="skills"
               className="mb-16 px-4"
             >
-              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold mb-12">
+              <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold mb-12">
                 MY SKILLS &
                 <span className="text-zinc-500 lg:text-7xl block">
                   TOOLKIT
@@ -608,53 +766,56 @@ const Portfolio = () => {
             </section>
 
             {/* Resume Section */}
-            {/* <section
-  id="resume"
-  className="min-h-fit flex flex-col px-4 py-8 lg:py-16 max-w-6xl mx-auto"
-> */}
-            {/* Header */}
-            {/* <div className="mb-6">
-    <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-extrabold">
-      RESUME
-    </h2>
-    <p className="text-zinc-500 text-xl lg:text-3xl mt-2 text-center lg:text-left">
-      A movie (starring me :P)
-    </p>
-  </div>
+            <section
+            ref={sectionRefs.resume}
+              id="resume"
+              className="min-h-fit flex flex-col px-4 py-8 mb-16 lg:py-16 max-w-6xl mx-auto"
+            >
+              {/* Header */}
+              <div className="mb-6">
+                <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold">
+                  RESUME
+                </h2>
+                <p className="text-zinc-500 text-xl font-medium mt-2 text-center lg:text-left">
+                  A movie (starring me :P)
+                </p>
+              </div>
 
-  <div className="flex-grow flex flex-col items-center"> */}
-            {/* Download Button */}
-            {/* <div className="mb-4 text-center lg:text-left">
-      <a
-        href={resumeUrl}
-        download="Nehul_Jain_Resume.pdf"
-        className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 text-sm"
-      >
-        <Download className="w-4 h-4" />
-        Download Resume
-      </a>
-    </div> */}
+              <div className="flex-grow flex flex-col items-center lg:items-start">
+                {/* Download Button */}
+                <div className="mb-4 text-center lg:text-left">
+                  <a
+                    href={"/nehul_resume.pdf"}
+                    download="Nehul_Jain_Resume.pdf"
+                    className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 text-sm"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download Resume
+                  </a>
+                </div>
 
-            {/* PDF Viewer Container */}
-            {/* <div className="w-full max-w-4xl h-[70vh] bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
-      <iframe
-        src={resumeUrl}
-        title="Resume PDF"
-        className="w-full h-full"
-        style={{
-          border: 'none',
-        }}
-      >
-        <p className="text-red-500">
-          Your browser does not support iframes.
-          <a href={resumeUrl} className="text-orange-500 ml-2">
-            Download PDF
-          </a>
-        </p>
-      </iframe>
-    </div>
-  </div>
-</section> */}
+                
+
+                {/* PDF Viewer Container */}
+                <div className="w-full max-w-4xl h-[49vh] lg:h-[60vh] bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
+                  <iframe
+                    src={resumeUrl}
+                    title="Nehul's resume"
+                    className="w-full h-full"
+                    style={{
+                      border: "none",
+                    }}
+                  >
+                    <p className="text-red-500">
+                      Sorry, could not load the resume. Please download the PDF!
+                      <a href={resumeUrl} className="text-orange-500 ml-2">
+                        Download PDF
+                      </a>
+                    </p>
+                  </iframe>
+                </div>
+              </div>
+            </section>
 
             {/* Photography Section */}
             <section
@@ -662,7 +823,7 @@ const Portfolio = () => {
               id="photography"
               className="mb-16"
             >
-              <h2 className="text-[2.8rem] leading-none lg:text-8xl font-extrabold mb-6">
+              <h2 className="text-[2.8rem] leading-none lg:text-8xl font-bold mb-6">
                 PICTURE THIS...
                 <span className="text-zinc-500 lg:text-7xl block">
                   Literally!
@@ -732,54 +893,96 @@ const Portfolio = () => {
             </section>
 
             {/* Contact Section */}
-            <section ref={sectionRefs.contact} id="contact" className="mb-16">
-              <div className="bg-custom-bg rounded-3xl">
-                <div className="lg:flex items-center justify-center gap-8 px-0">
-                  <div>
-                    <h2 className="text-5xl lg:text-8xl font-extrabold mb-4">
-                      LET'S WORK
-                      <span className="text-zinc-500 lg:text-7xl block">
-                        TOGETHER
-                      </span>
-                    </h2>
-                    <p className="text-zinc-500 font-medium text-xl mb-6">
-                      Let's catch up for a coffee? ☕️ (virtually probably?)
-                    </p>
-                    <form className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-sm text-zinc-500">Name</label>
-                          <input
-                            type="text"
-                            placeholder="Your Name"
-                            className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-sm text-zinc-500">Email</label>
-                          <input
-                            type="email"
-                            placeholder="Your Email"
-                            className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="text-sm text-zinc-500">Message</label>
-                        <textarea
-                          placeholder="Your Message"
-                          rows={4}
-                          className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400"
-                        />
-                      </div>
-                      <button className="w-full bg-custom-orange hover:bg-orange-600 text-white py-3 rounded-lg transition-colors">
-                        Submit
-                      </button>
-                    </form>
-                  </div>
+            <section id="contact" className="mb-16 w-full">
+      <div className="bg-custom-bg rounded-3xl px-0 pt-10 lg:px-0">
+        {!isSubmitted ? (
+          <div className="w-full">
+            <h2 className="text-5xl lg:text-8xl font-bold mb-4">
+              LET'S WORK
+              <span className="text-zinc-500 lg:text-7xl block">
+                TOGETHER
+              </span>
+            </h2>
+            <p className="text-zinc-500 font-medium text-xl mb-6">
+              Let's catch up for a coffee? ☕️ (virtually probably?)
+            </p>
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-zinc-500">Name</label>
+                  <input
+                    type="text"
+                    name="user_name"
+                    required
+                    placeholder="Your Name"
+                    className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-zinc-500">Email</label>
+                  <input
+                    type="email"
+                    name="user_email"
+                    required
+                    placeholder="Your Email"
+                    className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
                 </div>
               </div>
-            </section>
+              <div>
+                <label className="text-sm text-zinc-500">Message</label>
+                <textarea
+                  name="message"
+                  required
+                  placeholder="Your Message"
+                  rows={4}
+                  className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              >
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Sending...</span>
+                  </div>
+                ) : (
+                  'Submit'
+                )}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div className="w-full">
+            <div className="text-center py-16 space-y-4">
+              <div className="w-16 h-16 bg-green-500 rounded-full mx-auto flex items-center justify-center mb-6">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-3xl font-bold text-white">Thank You!</h3>
+              <p className="text-zinc-400">
+                I've received your message and will get back to you soon!
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
           </div>
         </div>
       </div>
