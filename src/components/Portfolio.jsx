@@ -366,7 +366,7 @@ const Portfolio = () => {
               >
                 {/* Shadow Element with synchronized transition */}
                 <div
-                  className="absolute -inset-4 rounded-2xl opacity-75 blur-xl"
+                  className="absolute -inset-4 rounded-2xl opacity-75 blur-xl animate-pulse"
                   style={{
                     background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05))',
                     transform: 'translateZ(-10px)',
@@ -488,7 +488,7 @@ const Portfolio = () => {
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
           <span className="text-indigo-200">Learning:</span>
-          <span className="text-white">Embeded C for Robotics</span>
+          <span className="text-white">Embedded C for Robotics</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
@@ -504,9 +504,9 @@ const Portfolio = () => {
         <span className="text-3xl text-indigo-300">❝</span>
         <div>
           <p className="text-sm italic text-indigo-100">
-            Don't complain about having too much on the plate, when the goal was to eat!
+            Can't complain about how much is on my plate when the goal was to eat! 
           </p>
-          <p className="text-xs text-indigo-300 mt-1">- Unknown (probably me)</p>
+          <p className="text-xs text-indigo-300 mt-1">~ Unknown (probably me)</p>
         </div>
       </div>
     </div>
@@ -516,7 +516,7 @@ const Portfolio = () => {
       <div className="bg-white/10 backdrop-blur-sm rounded-xl pt-3 px-0">
         <div className="flex items-center gap-2 mb-2 pl-3">
           <span>🎵</span>
-          <h3 className="text-sm font-medium">For Someone Special</h3>
+          <h3 className="text-sm font-medium">Music gets me going...</h3>
         </div>
         <iframe
           src="https://open.spotify.com/embed/playlist/4sJkkhN7A94nrnlyBiNPzu"
