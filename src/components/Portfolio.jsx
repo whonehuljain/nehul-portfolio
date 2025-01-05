@@ -233,7 +233,7 @@ const Portfolio = () => {
   ];
 
 
-  const resumeUrl = "https://drive.google.com/file/d/1JAbAq4YNk9L38X7A6pPtJWmX6PmZp-rK/preview";
+  const resumeUrl = "https://drive.google.com/file/d/16_6h-A6pdxxRwzncuruL6Q5Je0xtuheY/preview";
 
 
   const instaPosts = [
@@ -392,7 +392,7 @@ const Portfolio = () => {
                     <div className="flex flex-col items-center text-center h-full">
                       <div className="relative mb-3">
                         <img
-                          src="/profile.png"
+                          src="/profile.webp"
                           alt="Profile"
                           className="w-64 h-72 rounded-2xl object-cover"
                           draggable="false"
@@ -819,7 +819,7 @@ const Portfolio = () => {
                 {/* Download Button */}
                 <div className="mb-4 text-center lg:text-left">
                   <a
-                    href={"/nehul_resume.pdf"}
+                    href={"/Nehul_Jain_Main_Resume.pdf"}
                     download="Nehul_Jain_Resume.pdf"
                     className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 text-sm"
                   >
