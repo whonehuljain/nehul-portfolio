@@ -125,8 +125,8 @@ const Portfolio = () => {
     "Data",
     "Cloud",
     "DevOps",
+    "Backend",
     "Mobile",
-    "Web x AI",
   ];
 
   const experience = [
@@ -150,6 +150,13 @@ const Portfolio = () => {
         "Making a two-segment robotic arm stand and balance at 90 degrees in simulation using Reinforcement Learning",
       image: "/project-logo/rob.jpg",
       link: "https://github.com/whonehuljain/roboticArm_RL",
+    },
+    {
+      title: "Adv. Library Management System",
+      description:
+        "Built and deployed secure RESTful APIs with advanced analytics for book management, users, borrowing, and fines using PostgreSQL (Prisma) and Render.",
+      image: "/project-logo/adv-lib.webp",
+      link: "https://github.com/whonehuljain/adv-library-ms",
     },
     {
       title: "Babelfish.db",
@@ -233,7 +240,7 @@ const Portfolio = () => {
   ];
 
 
-  const resumeUrl = "https://drive.google.com/file/d/16_6h-A6pdxxRwzncuruL6Q5Je0xtuheY/preview";
+  const resumeUrl = "https://drive.google.com/file/d/1P6DOZ4BYwkZ7o5y7ZpJWZy80x7SyYDGs/preview";
 
 
   const instaPosts = [
@@ -434,7 +441,7 @@ const Portfolio = () => {
                           <Twitter size={20} />
                         </a>
                         <a
-                          href="https://www.instagram.com/whonehuljain"
+                          href="https://www.instagram.com/nehulscapes"
                           className="text-orange-500 hover:text-zinc-500"
                           target="_blank"
                           rel="noopener noreferrer"
