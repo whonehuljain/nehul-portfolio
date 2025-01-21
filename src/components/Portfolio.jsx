@@ -131,7 +131,7 @@ const Portfolio = () => {
 
   const experience = [
     {
-      company: "Upsurge Labs - AI Engineer Intern",
+      company: "Upsurge Labs - Ml & Backend Development Intern",
       link: "https://upsurge.io",
       logo: "/company-logo/upsurge-logo.png",
       points: [
