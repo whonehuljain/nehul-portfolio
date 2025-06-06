@@ -131,6 +131,16 @@ const Portfolio = () => {
 
   const experience = [
     {
+      company: "Grafieks - SDE Intern",
+      link:"https://www.grafieks.com/",
+      logo: "/company-logo/grafieks-logo.png",
+      points:[
+        "developing end-to-end features for Grafieks’ BI platform in GoLang, including calculated fields and pivot heatmaps",
+        "leading full-stack development from frontend to deployment, optimizing data processing and performance."
+      ],
+      period: "Feb 2025 - Present",
+    },
+    {
       company: "Upsurge Labs - Ml & Backend Development Intern",
       link: "https://upsurge.io",
       logo: "/company-logo/upsurge-logo.png",
@@ -188,6 +198,18 @@ const Portfolio = () => {
 
   const skills = [
     {
+    name: "GoLang",
+    icon: "🐹",
+    description: "Concurrency so easy, even a gopher can do it! Fast, clean, and built for scale.",
+    logo: "/skill-logo/gopher-logo.png",
+    },
+    {
+    name: "Kubernetes",
+    icon: "⎈",
+    description: "Why ship one app when you can orchestrate a fleet? Containers, meet your captain!",
+    logo: "/skill-logo/kubernetes-logo.svg",
+    },
+    {
       name: "Python",
       icon: "🐍",
       description:
@@ -240,7 +262,7 @@ const Portfolio = () => {
   ];
 
 
-  const resumeUrl = "https://drive.google.com/file/d/1P6DOZ4BYwkZ7o5y7ZpJWZy80x7SyYDGs/preview";
+  const resumeUrl = "https://drive.google.com/file/d/1tMi40TVuKpwlUmtukdFu-iLoyj1r2-5o/preview";
 
 
   const instaPosts = [
@@ -320,7 +342,7 @@ const Portfolio = () => {
       <>
       {/* Original Top Navigation */}
       <nav id="top-nav" className="flex justify-center py-4">
-        <div className="bg-grey-bg rounded-xl mt-3 px-6 py-3.5 flex gap-9">
+        <div className="bg-grey-bg rounded-xl mt-2 px-6 py-3.5 flex gap-9">
           {navLinks.map((link) => (
             <button
               key={link.href}
@@ -826,7 +848,7 @@ const Portfolio = () => {
                 {/* Download Button */}
                 <div className="mb-4 text-center lg:text-left">
                   <a
-                    href={"/Nehul_Jain_Main_Resume.pdf"}
+                    href={"/Nehul_Jain_Resume.pdf"}
                     download="Nehul_Jain_Resume.pdf"
                     className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 text-sm"
                   >
@@ -874,13 +896,13 @@ const Portfolio = () => {
                 I don't just code... :P
               </p>
 
-              <div className="overflow-hidden relative">
-                <div className="flex animate-scroll gap-4 hover:pause">
+              <div className="overflow-x-auto scrollbar-hidden group">
+                <div className="flex animate-infinite-scroll group-hover:pause gap-4 w-max">
                   {/* First set of images */}
                   {instaPosts.map((post, index) => (
                     <div
                       key={`first-${index}`}
-                      className="flex-none aspect-square w-80 h-96 bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden"
+                      className="flex-none w-80 h-96 bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden"
                     >
                       <div className="w-full h-full flex justify-center">
                         <blockquote
@@ -907,7 +929,7 @@ const Portfolio = () => {
                   {instaPosts.map((post, index) => (
                     <div
                       key={`second-${index}`}
-                      className="flex-none aspect-square w-80 h-96 bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden"
+                      className="flex-none w-80 h-96 bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden"
                     >
                       <div className="w-full h-full flex justify-center">
                         <blockquote
@@ -932,6 +954,7 @@ const Portfolio = () => {
                 </div>
               </div>
             </section>
+
 
             {/* Contact Section */}
             <section id="contact" className="mb-16 w-full">
