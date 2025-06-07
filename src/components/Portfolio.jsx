@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 import {
   Home,
   Briefcase,
   Folder,
   Wrench,
   File,
-  // Camera,
   Mail,
   Layers,
   Box,
@@ -16,9 +15,43 @@ import {
   Twitter,
   Instagram,
   Linkedin,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const Portfolio = () => {
+  // Theme state
+  const [darkMode, setDarkMode] = useState(true);
+
+  // Initialize theme from localStorage or default to dark
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    if (savedTheme === "light" || (savedTheme === null && !prefersDark)) {
+      setDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    } else {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+
+    if (newDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -28,7 +61,7 @@ const Portfolio = () => {
   };
 
   const handleLinkClick = (e) => {
-    e.stopPropagation(); // Prevent card flip when clicking links
+    e.stopPropagation();
   };
 
   const sectionRefs = {
@@ -41,10 +74,8 @@ const Portfolio = () => {
     contact: useRef(null),
   };
 
-  // Improved smooth scroll function
   const scrollToSection = (elementRef) => {
     if (elementRef.current) {
-      // Use behavior: 'smooth' and additional options for better scrolling
       elementRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -53,7 +84,6 @@ const Portfolio = () => {
     }
   };
 
-  // Navigation links with icons
   const navLinks = [
     {
       title: "Home",
@@ -85,40 +115,22 @@ const Portfolio = () => {
       icon: <File size={20} />,
       ref: sectionRefs.resume,
     },
-    // {
-    //   title: "Photography",
-    //   href: "#photography",
-    //   icon: <Camera size={20} />,
-    //   ref: sectionRefs.photography,
-    // },
-    // {
-    //   title: "Contact",
-    //   href: "#contact",
-    //   icon: <Mail size={20} />,
-    //   ref: sectionRefs.contact,
-    // },
   ];
-
 
   const [showBottomNav, setShowBottomNav] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Get the original navbar element
-      const topNav = document.getElementById('top-nav');
+      const topNav = document.getElementById("top-nav");
       if (!topNav) return;
 
-      // Get the position and dimensions of the top navbar
       const rect = topNav.getBoundingClientRect();
-      
-      // Show bottom nav when top nav is out of view (above the viewport)
       setShowBottomNav(rect.bottom < 0);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   const skillTags = [
     "Machine Learning",
@@ -132,11 +144,11 @@ const Portfolio = () => {
   const experience = [
     {
       company: "Grafieks - SDE Intern",
-      link:"https://www.grafieks.com/",
+      link: "https://www.grafieks.com/",
       logo: "/company-logo/grafieks-logo.png",
-      points:[
-        "developing end-to-end features for Grafieks’ BI platform in GoLang, including calculated fields and pivot heatmaps",
-        "leading full-stack development from frontend to deployment, optimizing data processing and performance."
+      points: [
+        "developing end-to-end features for Grafieks' BI platform in GoLang, including calculated fields and pivot heatmaps",
+        "leading full-stack development from frontend to deployment, optimizing data processing and performance.",
       ],
       period: "Feb 2025 - Present",
     },
@@ -146,7 +158,7 @@ const Portfolio = () => {
       logo: "/company-logo/upsurge-logo.png",
       points: [
         "took cosmo (cosmoflow.ai) from an idea to internal beta, with autonomous web navigation and image element detection powered by open-source models.",
-        "built seamless data pipelines and llm workflows that plugged right into cosmo’s interface.",
+        "built seamless data pipelines and llm workflows that plugged right into cosmo's interface.",
         "crafted rest api integrations and database microservices for lemmebuild (lemmebuild.com), a low-code paas platform designed to simplify life (and coding)",
       ],
       period: "Aug 2024 - Nov 2024",
@@ -198,16 +210,18 @@ const Portfolio = () => {
 
   const skills = [
     {
-    name: "GoLang",
-    icon: "🐹",
-    description: "Concurrency so easy, even a gopher can do it! Fast, clean, and built for scale.",
-    logo: "/skill-logo/gopher-logo.png",
+      name: "GoLang",
+      icon: "🐹",
+      description:
+        "Concurrency so easy, even a gopher can do it! Fast, clean, and built for scale.",
+      logo: "/skill-logo/gopher-logo.png",
     },
     {
-    name: "Kubernetes",
-    icon: "⎈",
-    description: "Why ship one app when you can orchestrate a fleet? Containers, meet your captain!",
-    logo: "/skill-logo/kubernetes-logo.svg",
+      name: "Kubernetes",
+      icon: "⎈",
+      description:
+        "Why ship one app when you can orchestrate a fleet? Containers, meet your captain!",
+      logo: "/skill-logo/kubernetes-logo.svg",
     },
     {
       name: "Python",
@@ -219,7 +233,8 @@ const Portfolio = () => {
     {
       name: "TensorFlow",
       icon: "🧠",
-      description: "Sometimes, it's not just about the code, it's about the data!",
+      description:
+        "Sometimes, it's not just about the code, it's about the data!",
       logo: "/skill-logo/tf-logo.png",
     },
     {
@@ -231,7 +246,8 @@ const Portfolio = () => {
     {
       name: "AWS",
       icon: "☁️",
-      description: "Badal bahut important hai! ☁️, but dude check those AWS bills!",
+      description:
+        "Badal bahut important hai! ☁️, but dude check those AWS bills!",
       logo: "/skill-logo/aws-logo.png",
     },
     {
@@ -261,9 +277,8 @@ const Portfolio = () => {
     },
   ];
 
-
-  const resumeUrl = "https://drive.google.com/file/d/1tMi40TVuKpwlUmtukdFu-iLoyj1r2-5o/preview";
-
+  const resumeUrl =
+    "https://drive.google.com/file/d/1tMi40TVuKpwlUmtukdFu-iLoyj1r2-5o/preview";
 
   const instaPosts = [
     "https://www.instagram.com/p/C6mVrpRSTgI",
@@ -288,26 +303,22 @@ const Portfolio = () => {
     return cleanup;
   }, []);
 
-
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef(null);
 
-  // Cleanup function for the timeout
   useEffect(() => {
     let timeoutId;
 
     if (isSubmitted) {
       timeoutId = setTimeout(() => {
         setIsSubmitted(false);
-        // Only reset if the form reference exists
         if (formRef.current) {
           formRef.current.reset();
         }
       }, 5000);
     }
 
-    // Cleanup timeout on component unmount or when isSubmitted changes
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
@@ -315,69 +326,139 @@ const Portfolio = () => {
     };
   }, [isSubmitted]);
 
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setIsLoading(true);
-  
-      try {
-        await emailjs.sendForm(
-          process.env.REACT_APP_EMAILJS_SERVICE_ID,
-          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-          formRef.current,
-          process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-        );
-        
-        setIsSubmitted(true);
-      } catch (error) {
-        console.error('Failed to send email:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await emailjs.sendForm(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+      );
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-custom-bg text-white font-poppins">
+    <div className="min-h-screen bg-white dark:bg-custom-bg text-gray-900 dark:text-white font-poppins transition-colors duration-300">
       {/* Navigation Bar */}
       <>
-      {/* Original Top Navigation */}
-      <nav id="top-nav" className="flex justify-center py-4">
-        <div className="bg-grey-bg rounded-xl mt-2 px-6 py-3.5 flex gap-9">
-          {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => scrollToSection(link.ref)}
-              className="text-white hover:text-orange-500 transition-colors"
-              title={link.title}
-              type="button"
-            >
-              {link.icon}
-            </button>
-          ))}
-        </div>
-      </nav>
+        {/* Original Top Navigation */}
+        <nav id="top-nav" className="flex justify-center py-4">
+          <div className="bg-gray-100 dark:bg-grey-bg rounded-xl mt-4 px-6 py-3.5 flex gap-6 items-center">
+            {navLinks.map((link) => (
+              <div key={link.href} className="relative nav-icon">
+                <button
+                  onClick={() => scrollToSection(link.ref)}
+                  className="text-gray-700 dark:text-white hover:text-orange-500 transition-colors"
+                  type="button"
+                >
+                  {link.icon}
+                </button>
+                <div className="nav-tooltip">{link.title}</div>
+              </div>
+            ))}
 
-      {/* Bottom Navigation */}
-      <div
-        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
-          showBottomNav ? 'opacity-90 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'
-        }`}
-      >
-        <div className="bg-grey-bg rounded-xl px-6 py-3.5 flex gap-9 shadow-lg shadow-black/50">
-          {navLinks.map((link) => (
-            <button
-              key={`bottom-${link.href}`}
-              onClick={() => scrollToSection(link.ref)}
-              className="text-white hover:text-orange-500 transition-colors"
-              title={link.title}
-              type="button"
-            >
-              {link.icon}
-            </button>
-          ))}
+            {/* Subtle Separator */}
+            <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
+
+            {/* Theme Toggle Icon */}
+            <div className="relative nav-icon">
+              <button
+                onClick={toggleTheme}
+                className="text-gray-700 dark:text-white hover:text-orange-500 transition-all duration-300 transform hover:scale-110"
+              >
+                <div className="relative w-5 h-5">
+                  <Sun
+                    size={20}
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      darkMode
+                        ? "opacity-100 rotate-0 scale-100"
+                        : "opacity-0 -rotate-180 scale-0"
+                    }`}
+                  />
+                  <Moon
+                    size={20}
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      darkMode
+                        ? "opacity-0 rotate-180 scale-0"
+                        : "opacity-100 rotate-0 scale-100"
+
+                    }`}
+                  />
+                </div>
+              </button>
+              <div className="nav-tooltip">
+                {darkMode ? "Light Mode" : "Dark Mode"}
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        {/* Bottom Navigation */}
+        <div
+          className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
+            showBottomNav
+              ? "opacity-90 translate-y-0"
+              : "opacity-0 translate-y-full pointer-events-none"
+          }`}
+        >
+          <div className="bg-gray-100 dark:bg-grey-bg rounded-xl px-6 py-3.5 flex gap-6 shadow-lg shadow-black/50 items-center">
+            {navLinks.map((link) => (
+              <div key={`bottom-${link.href}`} className="relative nav-icon">
+                <button
+                  onClick={() => scrollToSection(link.ref)}
+                  className="text-gray-700 dark:text-white hover:text-orange-500 transition-colors"
+                  type="button"
+                >
+                  {link.icon}
+                </button>
+                <div className="nav-tooltip">{link.title}</div>
+              </div>
+            ))}
+
+            {/* Subtle Separator */}
+            <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+
+            {/* Theme Toggle Icon */}
+            <div className="relative nav-icon">
+              <button
+                onClick={toggleTheme}
+                className="text-gray-700 dark:text-white hover:text-orange-500 transition-all duration-300 transform hover:scale-110"
+              >
+                <div className="relative w-5 h-5">
+                  <Sun
+                    size={20}
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      darkMode
+                        ? "opacity-100 rotate-0 scale-100"
+                        : "opacity-0 -rotate-180 scale-0"
+                    }`}
+                  />
+                  <Moon
+                    size={20}
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      darkMode
+                        ? "opacity-0 rotate-180 scale-0"
+                        : "opacity-100 rotate-0 scale-100"
+                    }`}
+                  />
+                </div>
+              </button>
+              <div className="nav-tooltip">
+                {darkMode ? "Light Mode" : "Dark Mode"}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </>
+      </>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8">
@@ -389,33 +470,35 @@ const Portfolio = () => {
                 className="relative w-full cursor-pointer group"
                 onClick={handleFlip}
                 style={{
-                  perspective: '1000px',
-                  transformStyle: 'preserve-3d',
+                  perspective: "1000px",
+                  transformStyle: "preserve-3d",
                 }}
               >
-                {/* Shadow Element with synchronized transition */}
+                {/* Shadow Element */}
                 <div
                   className="absolute -inset-4 rounded-2xl opacity-75 blur-xl animate-pulse"
                   style={{
-                    background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05))',
-                    transform: 'translateZ(-10px)',
-                    transition: 'all 500ms ease-in-out',
+                    background: darkMode
+                      ? "linear-gradient(45deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05))"
+                      : "linear-gradient(45deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.05))",
+                    transform: "translateZ(-10px)",
+                    transition: "all 500ms ease-in-out",
                   }}
                 />
 
                 <div
                   className="w-full transition-transform duration-500 ease-in-out"
                   style={{
-                    transformStyle: 'preserve-3d',
-                    transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0)',
+                    transformStyle: "preserve-3d",
+                    transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
                   }}
                 >
                   {/* Front of the card */}
                   <div
-                    className="w-full bg-white rounded-2xl px-4 p-12 shadow-2xl"
-                    style={{ 
-                      backfaceVisibility: 'hidden',
-                      transform: 'translateZ(0px)',
+                    className="w-full bg-white dark:bg-white rounded-2xl px-4 p-12 shadow-2xl"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      transform: "translateZ(0px)",
                     }}
                   >
                     <div className="flex flex-col items-center text-center h-full">
@@ -494,99 +577,118 @@ const Portfolio = () => {
                     </div>
                   </div>
 
-{/* Back of the card */}
-<div
-  className="absolute top-0 w-full h-full bg-gradient-to-br from-slate-900 to-purple-900 rounded-2xl px-4 py-6 shadow-2xl"
-  style={{
-    backfaceVisibility: 'hidden',
-    transform: 'rotateY(180deg) translateZ(0px)',
-  }}
->
-  <div className="flex flex-col h-full text-white">
-    <h2 className="text-2xl font-bold mb-2 text-center">Behind the Code</h2>
+                  {/* Back of the card */}
+                  <div
+                    className="absolute top-0 w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-slate-900 dark:to-purple-900 rounded-2xl px-4 py-6 shadow-2xl"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      transform: "rotateY(180deg) translateZ(0px)",
+                    }}
+                  >
+                    <div className="flex flex-col h-full text-white">
+                      <h2 className="text-2xl font-bold mb-2 text-center">
+                        Behind the Code
+                      </h2>
 
-    {/* Current Status */}
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
-      <h3 className="text-lg font-semibold mb-2">Currently...</h3>
-      <div className="space-y-2 text-sm">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-          <span className="text-indigo-200">Reading:</span>
-          <span className="text-white">The Sentinel</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-          <span className="text-indigo-200">Learning:</span>
-          <span className="text-white">Embedded C for Robotics</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
-          <span className="text-indigo-200">Building:</span>
-          <span className="text-white">Something Cool 🤫</span>
-        </div>
-      </div>
-    </div>
+                      {/* Current Status */}
+                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
+                        <h3 className="text-lg font-semibold mb-2">
+                          Currently...
+                        </h3>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                            <span className="text-blue-200 dark:text-indigo-200">
+                              Reading:
+                            </span>
+                            <span className="text-white">The Sentinel</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                            <span className="text-blue-200 dark:text-indigo-200">
+                              Learning:
+                            </span>
+                            <span className="text-white">
+                              Embedded C for Robotics
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+                            <span className="text-blue-200 dark:text-indigo-200">
+                              Building:
+                            </span>
+                            <span className="text-white">
+                              Something Cool 🤫
+                            </span>
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Quote of the Day */}
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
-      <div className="flex items-start gap-2">
-        <span className="text-3xl text-indigo-300">❝</span>
-        <div>
-          <p className="text-sm italic text-indigo-100">
-            Can't complain about how much is on my plate when the goal was to eat! 
-          </p>
-          <p className="text-xs text-indigo-300 mt-1">~ Unknown (probably me)</p>
-        </div>
-      </div>
-    </div>
+                      {/* Quote of the Day */}
+                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
+                        <div className="flex items-start gap-2">
+                          <span className="text-3xl text-blue-300 dark:text-indigo-300">
+                            ❝
+                          </span>
+                          <div>
+                            <p className="text-sm italic text-blue-100 dark:text-indigo-100">
+                              Can't complain about how much is on my plate when
+                              the goal was to eat!
+                            </p>
+                            <p className="text-xs text-blue-300 dark:text-indigo-300 mt-1">
+                              ~ Unknown (probably me)
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
-    {/* Music Section */}
-    <div className="mt-auto">
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl pt-3 px-0">
-        <div className="flex items-center gap-2 mb-2 pl-3">
-          <span>🎵</span>
-          <h3 className="text-sm font-medium">Music gets me going...</h3>
-        </div>
-        <iframe
-          src="https://open.spotify.com/embed/playlist/4sJkkhN7A94nrnlyBiNPzu"
-          width="100%"
-          height="80"
-          frameBorder="0"
-          allow="encrypted-media"
-          className="rounded-lg"
-          title="whispered confessions playlist"
-        ></iframe>
-      </div>
-    </div>
+                      {/* Music Section */}
+                      <div className="mt-auto">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl pt-3 px-0">
+                          <div className="flex items-center gap-2 mb-2 pl-3">
+                            <span>🎵</span>
+                            <h3 className="text-sm font-medium">
+                              Music gets me going...
+                            </h3>
+                          </div>
+                          <iframe
+                            src="https://open.spotify.com/embed/playlist/4sJkkhN7A94nrnlyBiNPzu"
+                            width="100%"
+                            height="80"
+                            frameBorder="0"
+                            allow="encrypted-media"
+                            className="rounded-lg"
+                            title="whispered confessions playlist"
+                          ></iframe>
+                        </div>
+                      </div>
 
-    {/* Flip Back Indicator */}
-    <div className="mt-3 flex items-center justify-center gap-2 text-xs text-indigo-200">
-      <ArrowRight size={14} className="rotate-180" />
-      <span>Flip back to professional mode :p</span>
-    </div>
-  </div>
-</div>
-    </div>
-  </div>
-</div>
-</div>
+                      {/* Flip Back Indicator */}
+                      <div className="mt-3 flex items-center justify-center gap-2 text-xs text-blue-200 dark:text-indigo-200">
+                        <ArrowRight size={14} className="rotate-180" />
+                        <span>Flip back to professional mode :p</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-
-          
           {/* Main Content Area */}
           <div className="lg:w-2/3 lg:pl-4">
             {/* Hero Section */}
             <section ref={sectionRefs.home} id="home" className="mb-16">
               <h1 className="text-5xl text-center lg:text-[7.5rem] lg:text-left font-extrabold mb-6">
                 Hi! I'm Nehul
-                <span className="text-3xl text-center text-zinc-500 block lg:leading-[4.5rem] lg:text-[4.6rem] lg:text-left mt-2">
+                <span className="text-3xl text-center text-gray-500 dark:text-zinc-500 block lg:leading-[4.5rem] lg:text-[4.6rem] lg:text-left mt-2">
                   Curiosity is My Jam!
                 </span>
               </h1>
-              <p className="text-zinc-400 text-base lg:md:text-xl max-w-3xl text-center lg:text-left px-4 lg:p-0">
+              <p className="text-gray-600 dark:text-zinc-400 text-base lg:md:text-xl max-w-3xl text-center lg:text-left px-4 lg:p-0">
                 I make machines think, drink too much coffee, and pretend i have
-                my life together. curiosity is my fuel, and i turn “what ifs”
-                into “nailed it!” (most of the time). powered by bad jokes, big
+                my life together. curiosity is my fuel, and i turn "what ifs"
+                into "nailed it!" (most of the time). powered by bad jokes, big
                 ideas, and way too much caffeine.
               </p>
             </section>
@@ -660,18 +762,20 @@ const Portfolio = () => {
             >
               <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold mb-6">
                 PROFESSIONAL
-                <span className="text-zinc-500 lg:text-7xl block">
+                <span className="text-gray-500 dark:text-zinc-500 lg:text-7xl block">
                   PLOT TWISTS
                 </span>
               </h2>
 
               <div className="grid gap-4">
                 {experience.map((exp) => (
-                  <a href={exp.link} target="_blank" rel="noopener noreferrer">
-                    <div
-                      key={exp.company}
-                      className="bg-custom-bg rounded-2xl p-6 border border-none hover:bg-grey-bg transition-all duration-200 group relative"
-                    >
+                  <a
+                    href={exp.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={exp.company}
+                  >
+                    <div className="bg-gray-50 dark:bg-custom-bg rounded-2xl p-6 border border-gray-200 dark:border-none hover:bg-gray-100 dark:hover:bg-grey-bg transition-all duration-200 group relative">
                       <div className="flex justify-between items-start">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
@@ -688,7 +792,7 @@ const Portfolio = () => {
                               {exp.company}
                             </h3>
                           </div>
-                          <div className="text-zinc-400 space-y-2">
+                          <div className="text-gray-600 dark:text-zinc-400 space-y-2">
                             {exp.points.map((point, index) => (
                               <p key={index} className="flex items-start">
                                 <span className="mr-2">-</span>
@@ -697,12 +801,12 @@ const Portfolio = () => {
                             ))}
                           </div>
                           {exp.period && (
-                            <p className="text-zinc-500 mt-4 text-sm">
+                            <p className="text-gray-500 dark:text-zinc-500 mt-4 text-sm">
                               {exp.period}
                             </p>
                           )}
                         </div>
-                        <span className="text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <span className="text-gray-500 dark:text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                           <svg
                             width="16"
                             height="16"
@@ -730,7 +834,7 @@ const Portfolio = () => {
             <section ref={sectionRefs.projects} id="projects" className="mb-16">
               <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold mb-6">
                 FEATURED
-                <span className="text-zinc-500 lg:text-7xl block">
+                <span className="text-gray-500 dark:text-zinc-500 lg:text-7xl block">
                   PROJECTS
                 </span>
               </h2>
@@ -740,11 +844,9 @@ const Portfolio = () => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
+                    key={project.title}
                   >
-                    <div
-                      key={project.title}
-                      className="bg-custom-bg rounded-2xl p-6 border border-none hover:bg-grey-bg transition-colors group cursor-pointer"
-                    >
+                    <div className="bg-gray-50 dark:bg-custom-bg rounded-2xl p-6 border border-gray-200 dark:border-none hover:bg-gray-100 dark:hover:bg-grey-bg transition-colors group cursor-pointer">
                       <div className="flex items-center gap-4">
                         <img
                           src={project.image}
@@ -757,9 +859,11 @@ const Portfolio = () => {
                           <h3 className="text-xl font-semibold">
                             {project.title}
                           </h3>
-                          <p className="text-zinc-400">{project.description}</p>
+                          <p className="text-gray-600 dark:text-zinc-400">
+                            {project.description}
+                          </p>
                         </div>
-                        <span className="text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <span className="text-gray-500 dark:text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                           <svg
                             width="16"
                             height="16"
@@ -791,7 +895,7 @@ const Portfolio = () => {
             >
               <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold mb-12">
                 MY SKILLS &
-                <span className="text-zinc-500 lg:text-7xl block">
+                <span className="text-gray-500 dark:text-zinc-500 lg:text-7xl block">
                   TOOLKIT
                   <span className="inline-block ml-2"> 🛠️</span>
                 </span>
@@ -801,7 +905,7 @@ const Portfolio = () => {
                 {skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-4 bg-zinc-900/50 rounded-xl p-4 hover:bg-zinc-800/50 transition-all duration-300 group"
+                    className="flex items-center gap-4 bg-gray-100 dark:bg-zinc-900/50 rounded-xl p-4 hover:bg-gray-200 dark:hover:bg-zinc-800/50 transition-all duration-300 group"
                   >
                     {/* Logo Section */}
                     <div className="w-12 h-12 flex-shrink-0">
@@ -819,7 +923,7 @@ const Portfolio = () => {
                       <h3 className="font-semibold text-xl mb-1 group-hover:text-orange-500 transition-colors">
                         {skill.name}
                       </h3>
-                      <p className="text-sm text-zinc-400">
+                      <p className="text-sm text-gray-600 dark:text-zinc-400">
                         {skill.description}
                       </p>
                     </div>
@@ -830,7 +934,7 @@ const Portfolio = () => {
 
             {/* Resume Section */}
             <section
-            ref={sectionRefs.resume}
+              ref={sectionRefs.resume}
               id="resume"
               className="min-h-fit flex flex-col px-4 py-8 mb-16 lg:py-16 max-w-6xl mx-auto"
             >
@@ -839,7 +943,7 @@ const Portfolio = () => {
                 <h2 className="text-5xl text-center lg:text-8xl lg:text-left font-bold">
                   RESUME
                 </h2>
-                <p className="text-zinc-500 text-xl font-medium mt-2 text-center lg:text-left">
+                <p className="text-gray-500 dark:text-zinc-500 text-xl font-medium mt-2 text-center lg:text-left">
                   A movie (starring me :P)
                 </p>
               </div>
@@ -857,10 +961,8 @@ const Portfolio = () => {
                   </a>
                 </div>
 
-                
-
                 {/* PDF Viewer Container */}
-                <div className="w-full max-w-4xl h-[49vh] lg:h-[60vh] bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
+                <div className="w-full max-w-4xl h-[49vh] lg:h-[60vh] bg-gray-100 dark:bg-zinc-900 rounded-lg overflow-hidden border border-gray-300 dark:border-zinc-800">
                   <iframe
                     src={resumeUrl}
                     title="Nehul's resume"
@@ -888,11 +990,11 @@ const Portfolio = () => {
             >
               <h2 className="text-[2.8rem] leading-none lg:text-8xl font-bold mb-6">
                 PICTURE THIS...
-                <span className="text-zinc-500 lg:text-7xl block">
+                <span className="text-gray-500 dark:text-zinc-500 lg:text-7xl block">
                   Literally!
                 </span>
               </h2>
-              <p className="text-zinc-500 font-medium block text-xl mb-10">
+              <p className="text-gray-500 dark:text-zinc-500 font-medium block text-xl mb-10">
                 I don't just code... :P
               </p>
 
@@ -902,7 +1004,7 @@ const Portfolio = () => {
                   {instaPosts.map((post, index) => (
                     <div
                       key={`first-${index}`}
-                      className="flex-none w-80 h-96 bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden"
+                      className="flex-none w-80 h-96 bg-gray-200 dark:bg-zinc-800 rounded-lg border border-gray-300 dark:border-zinc-700 overflow-hidden"
                     >
                       <div className="w-full h-full flex justify-center">
                         <blockquote
@@ -929,7 +1031,7 @@ const Portfolio = () => {
                   {instaPosts.map((post, index) => (
                     <div
                       key={`second-${index}`}
-                      className="flex-none w-80 h-96 bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden"
+                      className="flex-none w-80 h-96 bg-gray-200 dark:bg-zinc-800 rounded-lg border border-gray-300 dark:border-zinc-700 overflow-hidden"
                     >
                       <div className="w-full h-full flex justify-center">
                         <blockquote
@@ -955,104 +1057,115 @@ const Portfolio = () => {
               </div>
             </section>
 
-
             {/* Contact Section */}
             <section id="contact" className="mb-16 w-full">
-      <div className="bg-custom-bg rounded-3xl px-0 pt-10 lg:px-0">
-        {!isSubmitted ? (
-          <div className="w-full">
-            <h2 className="text-5xl lg:text-8xl font-bold mb-4">
-              LET'S WORK
-              <span className="text-zinc-500 lg:text-7xl block">
-                TOGETHER
-              </span>
-            </h2>
-            <p className="text-zinc-500 font-medium text-xl mb-6">
-              Let's catch up for a coffee? ☕️ (virtually probably?)
-            </p>
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm text-zinc-500">Name</label>
-                  <input
-                    type="text"
-                    name="user_name"
-                    required
-                    placeholder="Your Name"
-                    className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm text-zinc-500">Email</label>
-                  <input
-                    type="email"
-                    name="user_email"
-                    required
-                    placeholder="Your Email"
-                    className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="text-sm text-zinc-500">Message</label>
-                <textarea
-                  name="message"
-                  required
-                  placeholder="Your Message"
-                  rows={4}
-                  className="w-full bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Sending...</span>
+              <div className="bg-gray-50 dark:bg-custom-bg rounded-3xl px-0 pt-10 lg:px-0">
+                {!isSubmitted ? (
+                  <div className="w-full">
+                    <h2 className="text-5xl lg:text-8xl font-bold mb-4">
+                      LET'S WORK
+                      <span className="text-gray-500 dark:text-zinc-500 lg:text-7xl block">
+                        TOGETHER
+                      </span>
+                    </h2>
+                    <p className="text-gray-500 dark:text-zinc-500 font-medium text-xl mb-6">
+                      Let's catch up for a coffee? ☕️ (virtually probably?)
+                    </p>
+                    <form
+                      ref={formRef}
+                      onSubmit={handleSubmit}
+                      className="space-y-4"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm text-gray-500 dark:text-zinc-500">
+                            Name
+                          </label>
+                          <input
+                            type="text"
+                            name="user_name"
+                            required
+                            placeholder="Your Name"
+                            className="w-full bg-white dark:bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-gray-400 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-300 dark:border-none text-gray-900 dark:text-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm text-gray-500 dark:text-zinc-500">
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            name="user_email"
+                            required
+                            placeholder="Your Email"
+                            className="w-full bg-white dark:bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-gray-400 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-300 dark:border-none text-gray-900 dark:text-white"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-sm text-gray-500 dark:text-zinc-500">
+                          Message
+                        </label>
+                        <textarea
+                          name="message"
+                          required
+                          placeholder="Your Message"
+                          rows={4}
+                          className="w-full bg-white dark:bg-form-bg rounded-lg px-4 py-2 mt-1 placeholder-gray-400 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-300 dark:border-none text-gray-900 dark:text-white"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                      >
+                        {isLoading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>Sending...</span>
+                          </div>
+                        ) : (
+                          "Submit"
+                        )}
+                      </button>
+                    </form>
                   </div>
                 ) : (
-                  'Submit'
+                  <div className="w-full">
+                    <div className="text-center py-16 space-y-4">
+                      <div className="w-16 h-16 bg-green-500 rounded-full mx-auto flex items-center justify-center mb-6">
+                        <svg
+                          className="w-8 h-8 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                        Thank You!
+                      </h3>
+                      <p className="text-gray-600 dark:text-zinc-400">
+                        I've received your message and will get back to you
+                        soon!
+                      </p>
+                    </div>
+                  </div>
                 )}
-              </button>
-            </form>
-          </div>
-        ) : (
-          <div className="w-full">
-            <div className="text-center py-16 space-y-4">
-              <div className="w-16 h-16 bg-green-500 rounded-full mx-auto flex items-center justify-center mb-6">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
               </div>
-              <h3 className="text-3xl font-bold text-white">Thank You!</h3>
-              <p className="text-zinc-400">
-                I've received your message and will get back to you soon!
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-
+            </section>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800 py-6 text-center text-zinc-500">
+      <footer className="border-t border-gray-300 dark:border-zinc-800 py-6 text-center text-gray-500 dark:text-zinc-500">
         Made with ❤️ by Nehul
       </footer>
     </div>
