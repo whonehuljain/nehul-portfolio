@@ -1,9 +1,37 @@
 'use client';
 
-import { Home, Briefcase, Folder, Wrench, File } from 'lucide-react';
-import ThemeToggle from '../UI/ThemeToggle';
+import { useState, useEffect } from 'react';
+import { Home, Briefcase, Folder, Wrench, File, Sun, Moon } from 'lucide-react';
 
 export default function BottomNavigation({ sectionRefs, scrollToSection, showBottomNav }) {
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'light' || (savedTheme === null && !prefersDark)) {
+      setDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    } else {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
   const navLinks = [
     {
       title: "Home",
@@ -45,26 +73,51 @@ export default function BottomNavigation({ sectionRefs, scrollToSection, showBot
           : "opacity-0 translate-y-full pointer-events-none"
       }`}
     >
-      <div className="bg-gray-100 dark:bg-grey-bg rounded-xl px-6 py-3.5 flex shadow-lg shadow-black/50 items-center">
-        <div className="flex gap-6 items-center">
-          {navLinks.map((link) => (
-            <div key={`bottom-${link.href}`} className="nav-icon">
-              <button
-                onClick={() => scrollToSection(link.ref)}
-                className="text-gray-700 dark:text-white hover:text-orange-500 transition-colors p-0 m-0"
-                type="button"
-              >
-                {link.icon}
-              </button>
-              <div className="nav-tooltip">{link.title}</div>
+      <div className="bg-gray-100 dark:bg-grey-bg rounded-xl px-6 py-3.5 flex gap-6 shadow-lg shadow-black/50 items-center">
+        {navLinks.map((link) => (
+          <div key={`bottom-${link.href}`} className="relative nav-icon">
+            <button
+              onClick={() => scrollToSection(link.ref)}
+              className="text-gray-700 dark:text-white hover:text-orange-500 transition-colors"
+              type="button"
+            >
+              {link.icon}
+            </button>
+            <div className="nav-tooltip-bottom">{link.title}</div>
+          </div>
+        ))}
+
+        {/* Subtle Separator */}
+        <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
+
+        {/* Theme Toggle Icon */}
+        <div className="relative nav-icon">
+          <button
+            onClick={toggleTheme}
+            className="text-gray-700 dark:text-white hover:text-orange-500 transition-all duration-300 transform hover:scale-110"
+          >
+            <div className="relative w-5 h-5">
+              <Sun
+                size={20}
+                className={`absolute inset-0 transition-all duration-500 ${
+                  darkMode
+                    ? "opacity-100 rotate-0 scale-100"
+                    : "opacity-0 -rotate-180 scale-0"
+                }`}
+              />
+              <Moon
+                size={20}
+                className={`absolute inset-0 transition-all duration-500 ${
+                  darkMode
+                    ? "opacity-0 rotate-180 scale-0"
+                    : "opacity-100 rotate-0 scale-100"
+                }`}
+              />
             </div>
-          ))}
-        </div>
-        
-        <div className="ml-4 w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
-        
-        <div className="ml-4">
-          <ThemeToggle />
+          </button>
+          <div className="nav-tooltip-bottom">
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </div>
         </div>
       </div>
     </div>
