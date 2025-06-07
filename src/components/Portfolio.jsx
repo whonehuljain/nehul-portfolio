@@ -775,7 +775,7 @@ const Portfolio = () => {
                     rel="noopener noreferrer"
                     key={exp.company}
                   >
-                    <div className="bg-gray-50 dark:bg-custom-bg rounded-2xl p-6 border border-gray-200 dark:border-none hover:bg-gray-100 dark:hover:bg-grey-bg transition-all duration-200 group relative">
+                    <div className="bg-gray-50 dark:bg-custom-bg rounded-2xl p-6 border-none dark:border-none hover:bg-gray-100 dark:hover:bg-grey-bg transition-all duration-200 group relative">
                       <div className="flex justify-between items-start">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
@@ -846,7 +846,7 @@ const Portfolio = () => {
                     rel="noopener noreferrer"
                     key={project.title}
                   >
-                    <div className="bg-gray-50 dark:bg-custom-bg rounded-2xl p-6 border border-gray-200 dark:border-none hover:bg-gray-100 dark:hover:bg-grey-bg transition-colors group cursor-pointer">
+                    <div className="bg-gray-50 dark:bg-custom-bg rounded-2xl p-6 border-none dark:border-none hover:bg-gray-100 dark:hover:bg-grey-bg transition-colors group cursor-pointer">
                       <div className="flex items-center gap-4">
                         <img
                           src={project.image}
